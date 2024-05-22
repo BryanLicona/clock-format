@@ -1,0 +1,80 @@
+import re
+import sys
+
+
+def main():
+    
+    print(convert(input("Hours: ")))
+
+def convert(s):
+    
+    if s is None:
+        raise ValueError
+    
+    while True:
+        if bool(s):
+            try:
+                
+                s = re.search(r"^([0-9]+):?([0-9]+)? (AM|PM) (to|TO) ([0-9]+):?([0-9]+)? (AM|PM)$", s, re.IGNORECASE)
+            
+                
+                formatted1_hour1 = int(s.group(1))
+                formatted1_minute1 = int(s.group(2) or 0)
+                formatted_am_pm1 = s.group(3).upper()
+                formatted_splitter = s.group(4)
+                formatted2_hour2 = int(s.group(5))
+                formatted2_minute2 = int(s.group(6) or 0)
+                formatted_am_pm2 = s.group(7).upper()
+                
+                if not formatted_splitter:
+                    raise ValueError
+                
+                
+                if formatted1_hour1 > 12:
+                    raise ValueError
+                elif formatted2_hour2 > 12:
+                    raise ValueError
+                else:
+                    pass
+                
+                if formatted1_minute1 > 59:
+                    raise ValueError
+                elif formatted2_minute2 > 59:
+                    raise ValueError
+                else:
+                    pass
+                
+                
+                if s:
+                    if formatted1_hour1 > 12 or formatted2_hour2 > 12 or formatted1_minute1 > 59 or formatted2_minute2 > 59:
+                        return ValueError
+                    if formatted1_hour1 == 12 and formatted_am_pm1 == "AM":
+                        formatted1_hour1 = 0
+                    elif formatted1_hour1 != 12 and formatted_am_pm1 == "PM":
+                        formatted1_hour1 += 12
+                    if formatted2_hour2 == 12 and formatted_am_pm2 == "AM":
+                        formatted2_hour2 = 0
+                    elif formatted2_hour2 != 12 and formatted_am_pm2 == "PM":
+                        formatted2_hour2 += 12
+                else:
+                    raise ValueError
+                
+                formatted3_hour3 = f"{formatted1_hour1:02}:{formatted1_minute1:02}"
+                formatted4_hour4 = f"{formatted2_hour2:02}:{formatted2_minute2:02}"
+                final_time_format = str(formatted3_hour3) + " to " + str(formatted4_hour4)
+                # final_time_format = f"{formatted3_hour3} to {formatted4_hour4}"
+            
+                if not final_time_format:
+                    SystemExit: 1 
+                else:
+                    return final_time_format
+            except ValueError:
+                raise ValueError
+        else:
+            SystemExit: 1
+    
+
+if __name__ == "__main__":
+    main()
+
+    
