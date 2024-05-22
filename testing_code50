@@ -71,6 +71,10 @@ def test_value_error():
         assert convert("05:00  PM to 10:00  PM")
     with pytest.raises(ValueError):
         assert convert("10:00 Am to 5:00 Pm")
+    with pytest.raises(ValueError):
+        assert convert("10:00 AM)
+    with pytest.raises(ValueError):
+        assert convert("5:00 PM)
         
 
 if __name__ == "__main__":
